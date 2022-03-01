@@ -12,7 +12,6 @@ namespace GlobalATM.Models
         public Account Account {get; set;}
 
         [Required]
-        [Display(Name="Deposit/Withdraw")]
         public double Amount {get;set;}
         public DateTime CreatedAt {get;set;} = DateTime.Now;
 

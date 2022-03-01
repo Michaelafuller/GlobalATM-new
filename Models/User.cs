@@ -52,9 +52,11 @@ namespace GlobalATM.Models
         public string AccountType {get; set;}
 
         [NotMapped]
+        [MinLength(16, ErrorMessage ="Card number must be a length of 16")]
         public string CardNumber {get; set;}
 
         [NotMapped]
+        [MinLength(12,ErrorMessage = "Account number must be a length of 12")]
         public string AccountNumber {get; set;}
 
         public class MinAge : ValidationAttribute

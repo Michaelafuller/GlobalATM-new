@@ -49,7 +49,7 @@ namespace GlobalATM.Controllers
         }
 
         [HttpPost("/register")]
-        public IActionResult Register(User newUser, string AccountType, string CardNumber)
+        public IActionResult Register(User newUser, string AccountType, string CardNumber, string AccountNumber)
         {
             if (ModelState.IsValid) 
             {
@@ -59,17 +59,22 @@ namespace GlobalATM.Controllers
                     return View("Index");
                 }
                 PasswordHasher<User> Hasher =  new PasswordHasher<User>();
-                //Hash the password only after verifying that everything else is good to go
+                //Hash the password only after verifying that everdything else is good to go
                 newUser.Pin = Hasher.HashPassword(newUser, newUser.Pin);
                 if (AccountType == "Checking")
                 {
                     Checking account = new Checking();
                     account.CardNumber = CardNumber;
+                    account.RoutingNumber = account.RandomDigits(9);
+                    account.AccountNumber = account.RandomDigits(12);
+
                     newUser.Accounts.Add(account);
                 }
-                else 
+                else if (AccountType == "Saving")
                 {
                     Saving account = new Saving();
+                    account.AccountNumber = AccountNumber;
+                    account.RoutingNumber = account.RandomDigits(9);
                     account.InterestRate = .05;
                     newUser.Accounts.Add(account);
                 }
@@ -82,49 +87,6 @@ namespace GlobalATM.Controllers
             return View("Index");
         }
 
-        [HttpPost("transactions")]
-        // public IActionResult Transaction(double amount)
-        // {
-        //     if (HttpContext.Session.GetInt32("UserId") != null)
-        //     {
-        //         User currentUser =  db.Users.FirstOrDefault(u => u.UserId == HttpContext.Session.GetInt32("UserId"));
-        //         Account userAccount = db.Accounts.Include("Transactions").FirstOrDefault(a => a.AccountNumber == HttpContext.Session.GetString("AccountNumber"));
-        //         if (amount > 0)
-        //         {
-        //             userAccount.Transactions.Add(new Transaction(Amount));
-        //             //Create a new isntance of an object of transaction
-        //             Transaction newTrans = new Transaction {
-        //                 Amount = amount,
-        //                 CreatedAt = DateTime.Now,
-        //                 UserId = currentUser.UserId
-        //             };
-        //         db.Add(newTrans);
-        //         db.SaveChanges();
-        //         return Redirect("/Account/" + currentUser.UserId);
-        //         }
-        //         else if (amount + currentUser.Balance < 0)
-        //         {
-        //             ModelState.AddModelError("Amount", "Insufficient funds");
-        //             return Redirect("/Account/" + currentUser.UserId);
-        //         }
-        //         else 
-        //         {
-        //             currentUser.Balance += amount;
-        //             Transaction newTransaction = new Transaction {
-        //                 Amount = amount,
-        //                 CreatedAt = DateTime.Now,
-        //                 UpdatedAt = DateTime.Now,
-        //                 UserId = currentUser.UserId
-        //             };
-        //             db.Add(newTransaction);
-        //             db.SaveChanges();
-        //             return Redirect("/Account/" + currentUser.UserId);
-        //         }
-        //     }
-
-        //     return View("Index");
-        // }
-
         [HttpGet("/login")]
         public IActionResult LogIn()
         {
@@ -136,22 +98,30 @@ namespace GlobalATM.Controllers
         {
             if (ModelState.IsValid)
             {
-                Account account = db.Accounts
-                                    .Include(a => a.User).
-                                        FirstOrDefault(u => u.AccountNumber == logUser.LoginAccountNum);
-                Account checkingAccount = db.Checkings
+                Account account = null;
+                if (logUser.LoginAccountNum.Length == 12)
+                {
+                    account = db.Accounts
+                                        .Include(a => a.User).
+                                            FirstOrDefault(u => u.AccountNumber == logUser.LoginAccountNum);
+                }
+                else if (logUser.LoginAccountNum.Length == 16)
+                {
+
+                    account = db.Checkings
                                             .Include(u => u.User)
                                                 .FirstOrDefault(u => u.CardNumber == logUser.LoginAccountNum);
+                }
                 // if (db.Users.Any(u=> u.Email == newUser.Email)) 
                 //User userindb = db.Users.FirstOrDefault(u => u.Email == logUser.LoginEmail);
-                if (checkingAccount == null)
+                if (account == null)
                 {
                     ModelState.AddModelError("LoginAccountNum", "Invalid login attempt");
                     return View("Login");
                 }
                 //check if password is correct
                 PasswordHasher<LogUser> Hasher = new PasswordHasher<LogUser>();
-                PasswordVerificationResult result = Hasher.VerifyHashedPassword(logUser, checkingAccount.User.Pin, logUser.LoginPin); 
+                PasswordVerificationResult result = Hasher.VerifyHashedPassword(logUser, account.User.Pin, logUser.LoginPin); 
                 //When the vertifcation runs, it will passed 1(successfully) or 0(password is incorrect)
                 if (result == 0)
                 {
@@ -159,7 +129,8 @@ namespace GlobalATM.Controllers
                     return View("Login");
                 }
 
-                HttpContext.Session.SetInt32("UserId", checkingAccount.User.UserId);
+                HttpContext.Session.SetInt32("UserId", account.User.UserId);
+                HttpContext.Session.SetString("AccountNumber",  account.AccountNumber);
                 return RedirectToAction("Dashboard");
             }
             return View("Login");
