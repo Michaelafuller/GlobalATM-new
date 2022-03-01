@@ -82,7 +82,7 @@ namespace GlobalATM.Controllers
             return View("Index");
         }
 
-        [HttpPost("transactions")]
+        // [HttpPost("transactions")]
         // public IActionResult Transaction(double amount)
         // {
         //     if (HttpContext.Session.GetInt32("UserId") != null)
