@@ -131,7 +131,7 @@ namespace GlobalATM.Controllers
                 if (amount + userAccount.Balance < 0)
                     {
                         ModelState.AddModelError("Amount", "Insufficient funds");
-                        return RedirectToAction("Withdraw");
+                        return View("Withdraw");
                     }
                     else 
                     {
