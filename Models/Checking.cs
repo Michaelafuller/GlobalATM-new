@@ -10,7 +10,7 @@ namespace GlobalATM.Models
     {
         public string CardNumber {get; set;}
 
-        public bool IsCardStolen { get; set; }
+        // public bool IsCardStolen { get; set; }
 
         public string RandomDigits(int length)
             {
