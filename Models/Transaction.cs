@@ -11,8 +11,8 @@ namespace GlobalATM.Models
 
         public Account Account {get; set;}
 
-        [Required]
-        [Display(Name="Deposit/Withdraw")]
+        [Required(ErrorMessage ="is required")]
+        [Range(0, 10000, ErrorMessage ="Invalid Input")]
         public double Amount {get;set;}
         public DateTime CreatedAt {get;set;} = DateTime.Now;
 
