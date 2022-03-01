@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GlobalATM.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20220301021947_first")]
+    [Migration("20220301204129_first")]
     partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
