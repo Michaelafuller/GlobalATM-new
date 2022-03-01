@@ -10,6 +10,8 @@ namespace GlobalATM.Models
     {
         public string CardNumber {get; set;}
 
+        public bool IsCardStolen { get; set; }
+
         public string RandomDigits(int length)
             {
                 var random = new Random();
@@ -18,5 +20,9 @@ namespace GlobalATM.Models
                     s = String.Concat(s, random.Next(10).ToString());
                 return s;
             }
+
+        
+
+
     }
 }    
