@@ -87,6 +87,49 @@ namespace GlobalATM.Controllers
             return View("Index");
         }
 
+        // [HttpPost("transactions")]
+        // public IActionResult Transaction(double amount)
+        // {
+        //     if (HttpContext.Session.GetInt32("UserId") != null)
+        //     {
+        //         User currentUser =  db.Users.FirstOrDefault(u => u.UserId == HttpContext.Session.GetInt32("UserId"));
+        //         Account userAccount = db.Accounts.Include("Transactions").FirstOrDefault(a => a.AccountNumber == HttpContext.Session.GetString("AccountNumber"));
+        //         if (amount > 0)
+        //         {
+        //             userAccount.Transactions.Add(new Transaction(Amount));
+        //             //Create a new isntance of an object of transaction
+        //             Transaction newTrans = new Transaction {
+        //                 Amount = amount,
+        //                 CreatedAt = DateTime.Now,
+        //                 UserId = currentUser.UserId
+        //             };
+        //         db.Add(newTrans);
+        //         db.SaveChanges();
+        //         return Redirect("/Account/" + currentUser.UserId);
+        //         }
+        //         else if (amount + currentUser.Balance < 0)
+        //         {
+        //             ModelState.AddModelError("Amount", "Insufficient funds");
+        //             return Redirect("/Account/" + currentUser.UserId);
+        //         }
+        //         else 
+        //         {
+        //             currentUser.Balance += amount;
+        //             Transaction newTransaction = new Transaction {
+        //                 Amount = amount,
+        //                 CreatedAt = DateTime.Now,
+        //                 UpdatedAt = DateTime.Now,
+        //                 UserId = currentUser.UserId
+        //             };
+        //             db.Add(newTransaction);
+        //             db.SaveChanges();
+        //             return Redirect("/Account/" + currentUser.UserId);
+        //         }
+        //     }
+
+        //     return View("Index");
+        // }
+
         [HttpGet("/login")]
         public IActionResult LogIn()
         {
