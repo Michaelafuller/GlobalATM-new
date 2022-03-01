@@ -172,7 +172,7 @@ namespace GlobalATM.Controllers
         }
 
         [HttpPost("/send-receipt")]
-        public async Task<ActionResult> SendReceipt()
+        public async Task<ActionResult> SendReceipt() //Can pass variables into function
         {
             // String body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
             MailMessage message = new MailMessage();
