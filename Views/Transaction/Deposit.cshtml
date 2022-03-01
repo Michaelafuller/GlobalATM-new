@@ -2,8 +2,8 @@
 <h1>Welcome</h1>
 <p>Current balance: @ViewBag.UserAccount.Balance</p>
 <form asp-action="Add" asp-controller="Transaction" method="post">
-    <span asp-validation-for="Amount"></span>
     <label asp-for="Amount">How much would you like to Deposit?</label>
+    <span asp-validation-for="Amount" class="text text-danger"></span>
     <input asp-for="Amount">
     <input type="hidden" asp-for="UserId">
     <input type="submit" value="Submit">

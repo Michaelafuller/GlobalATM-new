@@ -51,11 +51,11 @@ namespace GlobalATM.Controllers
             {
                 return RedirectToAction("LogIn", "Home");
             }
-            Account userAccount = db.Accounts
-                                    .Include("Transactions")
-                                    .FirstOrDefault(a => a.AccountNumber == HttpContext.Session.GetString("AccountNumber"));
-            ViewBag.UserAccount = userAccount;                          
-            return View("Withdraw");
+                Account userAccount = db.Accounts
+                                        .Include("Transactions")
+                                        .FirstOrDefault(a => a.AccountNumber == HttpContext.Session.GetString("AccountNumber"));
+                ViewBag.UserAccount = userAccount;                          
+                return View("Withdraw");
         }
 
         [HttpGet("Deposit")]
@@ -77,12 +77,16 @@ namespace GlobalATM.Controllers
         {
             if (isLoggedIn)
             {
+                Account user = db.Accounts
+                                        .Include("Transactions")
+                                        .FirstOrDefault(a => a.AccountNumber == HttpContext.Session.GetString("AccountNumber"));
+                ViewBag.UserAccount = user;                          
+
                 User currentUser =  db.Users.FirstOrDefault(u => u.UserId == HttpContext.Session.GetInt32("UserId"));
                 Account userAccount = db.Accounts.Include("Transactions").FirstOrDefault(a => a.AccountNumber == HttpContext.Session.GetString("AccountNumber"));
                 Transaction newTrans = null; 
-                if (amount > 0)
+                if(amount > 0)
                 {
-                    //Create a new isntance of an object of transaction
                     newTrans = new Transaction {
                     Amount = amount,
                     CreatedAt = DateTime.Now,
@@ -93,8 +97,13 @@ namespace GlobalATM.Controllers
                 db.SaveChanges();
                 return Redirect("Deposit");
                 }
+                else
+                {
+                    ModelState.AddModelError("Amount", "Invalid Input");
+                    return View("Deposit");
+                }
             }
-        return View("Index");
+        return RedirectToAction("Login", "Home");
         }
 
         [HttpPost("Subtract")]
@@ -102,30 +111,43 @@ namespace GlobalATM.Controllers
         {
             if (isLoggedIn)
             {
-                User currentUser =  db.Users.FirstOrDefault(u => u.UserId == HttpContext.Session.GetInt32("UserId"));
-                Account userAccount = db.Accounts.Include("Transactions").FirstOrDefault(a => a.AccountNumber == HttpContext.Session.GetString("AccountNumber"));
-                Transaction newTrans = null; 
-                amount = amount* -1;
-            if (amount + userAccount.Balance < 0)
-                {
-                    ModelState.AddModelError("Amount", "Insufficient funds");
-                    return RedirectToAction("Index");
-                }
-                else 
-                {
-                    newTrans = new Transaction {
-                    Amount = amount,
-                    CreatedAt = DateTime.Now,
-                    UserId = currentUser.UserId
-                };
-                    userAccount.Transactions.Add(newTrans);
-                    db.Add(newTrans);
-                    db.SaveChanges();
-                    return Redirect("Withdraw");
-                }
-            }
+                Account user = db.Accounts
+                                        .Include("Transactions")
+                                        .FirstOrDefault(a => a.AccountNumber == HttpContext.Session.GetString("AccountNumber"));
+                ViewBag.UserAccount = user;                          
 
-            return View("Index");
+                    User currentUser =  db.Users.FirstOrDefault(u => u.UserId == HttpContext.Session.GetInt32("UserId"));
+                    Account userAccount = db.Accounts.Include("Transactions").FirstOrDefault(a => a.AccountNumber == HttpContext.Session.GetString("AccountNumber"));
+                    Transaction newTrans = null;
+                if(amount > 0)
+                {
+                    amount = amount* -1;
+                }
+                else
+                {
+                    ModelState.AddModelError("Amount", "Invalid Input");
+                    return View("Withdraw");
+                }
+                if (amount + userAccount.Balance < 0)
+                    {
+                        ModelState.AddModelError("Amount", "Insufficient funds");
+                        return RedirectToAction("Withdraw");
+                    }
+                    else 
+                    {
+                        newTrans = new Transaction {
+                        Amount = amount,
+                        CreatedAt = DateTime.Now,
+                        UserId = currentUser.UserId
+                    };
+                        userAccount.Transactions.Add(newTrans);
+                        db.Add(newTrans);
+                        db.SaveChanges();
+                        return Redirect("Withdraw");
+                    }
+                }
+
+            return RedirectToAction("LogIn", "Home");
         }
 
 
