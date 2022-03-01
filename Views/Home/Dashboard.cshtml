@@ -1,0 +1,31 @@
+@model User
+<h1>Welcome, @Model.FirstName</h1>
+
+@foreach (var item in Model.Accounts)
+    {
+    <table class="table table-striped">
+        <tr>
+            @* A ViewBag to get the associated account (checking vs. savings) to the account id? *@
+            <th>@item.AccountId</th> 
+            @* <th>Type of Transaction?</th> *@
+            <th>Amount</th>
+            <th>Date</th>
+            @foreach (var transaction in ViewBag.allTransactions)
+            {
+                <tr>
+                    <td>@item.AccountId</td>
+                    <td>@transaction.Amount</td>
+                    <td>@transaction.CreatedAt</td>
+                </tr>
+            }
+        </tr>
+    </table>
+    }
+<p class="text-danger">all links are broken</p>
+@* we can format the look of this later -- just added for navigation *@
+@* we can change routes, also. *@
+<a class="btn btn-primary" asp-controller="Transaction" asp-action="Withdraw">Withdraw</a>
+<a class="btn btn-primary" asp-controller="Transaction" asp-action="Deposit">Deposit</a>
+<a class="btn btn-primary" asp-controller="Transaction" asp-action="CurrencyConverter">Foreign Currency Converter</a>
+<a class="btn btn-primary" asp-controller="Home" asp-action="ViewBalance">View Balance</a>
+<a class="btn btn-danger" asp-controller="Home" asp-action="ReportLostOrStolen">Report Lost / Stolen Card</a>
