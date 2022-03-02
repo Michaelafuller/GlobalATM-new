@@ -58,19 +58,18 @@ namespace GlobalATM.Controllers
                 return View("ReportLostOrStolen", loggedUser);
         }
 
-                // [HttpPost("/stolen")]
+        [HttpPost("/stolen")]
+        public IActionResult YesCardStolen()
+        {
+            if (isLoggedIn)
+            {
+                Account userAccount = db.Accounts
+                                        .FirstOrDefault(a => a.AccountNumber == HttpContext.Session.GetString("AccountNumber"));
+                userAccount.IsCardStolen = true;
 
-        // public IActionResult YesCardStolen()
-        // {
-        //     if (isLoggedIn)
-        //     {
-        //         Account userAccount = db.Accounts
-        //                                 .FirstOrDefault(a => a.AccountNumber == HttpContext.Session.GetString("AccountNumber"));
-        //         userAccount.IsCardStolen = true;
 
-
-        //     return RedirectToAction("LogIn", "Home");
-        // }
+            return RedirectToAction("LogIn", "Home");
+        }
 
     }
 }
