@@ -8,6 +8,15 @@
     <input type="hidden" asp-for="UserId">
     <input type="submit" value="Submit">
 </form>
+
+@{
+    string message = TempData["Success"] as string;
+    if (message != null)
+    {
+        <div class="text-success">@message</div>
+    }
+}
+
 <hr>
 <table class="table table-hover">
     <thead>

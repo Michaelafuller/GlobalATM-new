@@ -97,7 +97,7 @@ namespace GlobalATM.Controllers
                     db.Add(newTrans);
                     db.SaveChanges();
 
-                    String body = "<p> Hello, {0}</p> <p>Here is your receipt for your recent transacion with CSharp Global Banking System:</p><p>You made a deposit of ${1} on {2} to your account. Your new balance is ${3}.</p> <p>Thank you for banking with CSharp Global Banking Sytem";
+                    String body = "<p> Hello, {0}</p> <p>Here is your receipt for your recent transacion with CSharp Global Banking System:</p><p>You made a deposit of ${1} on {2} to your account. Your new balance is ${3}.</p> <p>Thank you for banking with CSharp Global Banking Sytem.";
                     MailMessage message = new MailMessage();
                     message.To.Add(new MailAddress(currentUser.Email)); 
                     message.From = new MailAddress("CSharpGlobalBank@gmail.com");
@@ -117,6 +117,7 @@ namespace GlobalATM.Controllers
                         smtp.Port = 587;
                         smtp.EnableSsl = true;
                         await smtp.SendMailAsync(message);
+                        TempData["Success"] = "Your deposit has been processed. Please check your email for receipt.";
                         return RedirectToAction("Deposit");
                     }
                 }
@@ -168,7 +169,7 @@ namespace GlobalATM.Controllers
                     db.Add(newTrans);
                     db.SaveChanges();
 
-                    String body = "<p> Hello, {0}</p> <p>Here is your receipt for your recent transacion with CSharp Global Banking System:</p><p>You made a withdrawl of ${1} on {2} to your account. Your new balance is ${3}.</p> <p>Thank you for banking with CSharp Global Banking Sytem";
+                    String body = "<p> Hello, {0}</p> <p>Here is your receipt for your recent transacion with CSharp Global Banking System:</p><p>You made a withdrawl of ${1} on {2} to your account. Your new balance is ${3}.</p> <p>Thank you for banking with CSharp Global Banking Sytem.";
                     MailMessage message = new MailMessage();
                     message.To.Add(new MailAddress(currentUser.Email)); 
                     message.From = new MailAddress("CSharpGlobalBank@gmail.com");
@@ -188,6 +189,7 @@ namespace GlobalATM.Controllers
                         smtp.Port = 587;
                         smtp.EnableSsl = true;
                         await smtp.SendMailAsync(message);
+                        TempData["Success"] = "Your withdrawal has been processed. Please collect your money and check your email for receipt.";
                     }
                     return Redirect("Withdraw");
                 }
