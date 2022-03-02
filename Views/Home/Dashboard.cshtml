@@ -14,18 +14,16 @@
             {
                 <tr>
                     <td>@item.AccountId</td>
-                    <td>@transaction.Amount</td>
+                    <td>$@transaction.Amount</td>
                     <td>@transaction.CreatedAt</td>
                 </tr>
             }
         </tr>
     </table>
     }
-<p class="text-danger">all links are broken</p>
 @* we can format the look of this later -- just added for navigation *@
 @* we can change routes, also. *@
-<a class="btn btn-primary" asp-controller="Transaction" asp-action="Withdraw">Withdraw</a>
-<a class="btn btn-primary" asp-controller="Transaction" asp-action="Deposit">Deposit</a>
-<a class="btn btn-primary" asp-controller="Conversion" asp-action="CurrencyConverter">Foreign Currency Converter</a>
-<a class="btn btn-primary" asp-controller="Home" asp-action="ViewBalance">View Balance</a>
-<a class="btn btn-danger" asp-controller="Home" asp-action="ReportLostOrStolen">Report Lost / Stolen Card</a>
+<a class="btn white-btn" asp-controller="Transaction" asp-action="Withdraw">Withdraw</a>
+<a class="btn white-btn" asp-controller="Transaction" asp-action="Deposit">Deposit</a>
+<a class="btn white-btn" asp-controller="Transaction" asp-action="CurrencyConverter">Foreign Currency Converter</a>
+<a class="btn white-btn" asp-controller="Game" asp-action="ReportLostOrStolen">Report Lost / Stolen Card</a>
