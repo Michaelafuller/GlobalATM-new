@@ -75,3 +75,11 @@ body {
 #susanbar {
   background-color: rgb(208, 189, 230);
 }
+
+.white-btn {
+  background-color: white;
+}
+
+#convert-input {
+  width: 260px;
+}
