@@ -47,9 +47,27 @@ namespace GlobalATM.Models
         [NotMapped]
         public string Confirm {get;set;}
 
-        [NotMapped]
         [Required]
+        [Display(Name = "Account Type")]
         public string AccountType {get; set;}
+
+        [NotMapped]
+        public bool SecurityQuestions { get; set; }
+
+        [Required(ErrorMessage = "Required: ")]
+        [MinLength(3, ErrorMessage = "Security question answers must be at least {1} characters.")]
+        [Display(Name = "What is your Favorite Color?")]
+        public string FaveColor { get; set; }
+
+        [Required(ErrorMessage = "Required: ")]
+        [MinLength(3, ErrorMessage = "Security question answers must be at least {1} characters.")]
+        [Display(Name = "What did you eat for breakfast?")]
+        public string Breakfast { get; set; }
+
+        [Required(ErrorMessage = "Required: ")]
+        [MinLength(1, ErrorMessage = "Security question answers must be at least {1} characters.")]
+        [Display(Name = "What is the average air/speed velocity of an unladen swallow?")]
+        public string AvgSpeedSwallow { get; set; }
 
         [NotMapped]
         [MinLength(16, ErrorMessage ="Card number must be a length of 16")]

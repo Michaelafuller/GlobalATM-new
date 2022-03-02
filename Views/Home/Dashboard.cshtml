@@ -1,6 +1,12 @@
 @model User
 <h1>Welcome, @Model.FirstName</h1>
 
+@if(Model.AccountType == "Saving")
+    {
+        <p>Global ATM's Saving Accounts boast a hefty 5% APR!</p>
+    }
+
+
 @foreach (var item in Model.Accounts)
     {
     <table class="table table-striped">
