@@ -63,11 +63,12 @@ namespace GlobalATM.Controllers
         {
             if (isLoggedIn)
             {
-                Account userAccount = db.Accounts
+                Checking userAccount = db.Checkings
                                         .FirstOrDefault(a => a.AccountNumber == HttpContext.Session.GetString("AccountNumber"));
                 userAccount.IsCardStolen = true;
-
-
+                db.SaveChanges();
+                return View ("Game");
+            }
             return RedirectToAction("LogIn", "Home");
         }
 
