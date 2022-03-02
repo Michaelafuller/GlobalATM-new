@@ -20,3 +20,33 @@ function hideCardOrAccount(obj)
     }
 }
 
+function HideDivfaveColor()
+{
+    let faveColor = document.getElementById("faveColor");
+    let breakFast = document.getElementById("breakFast");
+
+        faveColor.style.display = "none"
+        breakFast.style.display = "block"
+}
+
+function HideDivbreakFast()
+{
+    let avgSpeedSwallow = document.getElementById("avgSpeedSwallow");
+    let breakFast = document.getElementById("breakFast");
+
+
+        breakFast.style.display = "none"
+        avgSpeedSwallow.style.display = "block"
+
+}
+
+function HideDivavgSpeedSwallow()
+{
+    let avgSpeedSwallow = document.getElementById("avgSpeedSwallow");
+    let bestKPop = document.getElementById("bestKPop");
+
+
+        avgSpeedSwallow.style.display = "none"
+        bestKPop.style.display = "block"
+
+}
