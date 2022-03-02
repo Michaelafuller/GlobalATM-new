@@ -136,6 +136,8 @@ namespace GlobalATM.Controllers
             return View("LogIn");
         }
 
+
+
         [HttpPost("Login")]
         public IActionResult Login(LogUser logUser)
         {
