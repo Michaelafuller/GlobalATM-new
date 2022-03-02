@@ -3,6 +3,7 @@
 Migrations/
 appsettings.json
 EmailSenderPW.txt
+WebAPIKey.txt
 
 # User-specific files
 *.suo
