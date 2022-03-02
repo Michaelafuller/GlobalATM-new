@@ -1,9 +1,9 @@
 @model Transaction
 <h1>Welcome</h1>
-<p>Current balance: @ViewBag.UserAccount.Balance</p>
+<p>Current balance: $@ViewBag.UserAccount.Balance</p>
 <form asp-action="Subtract" asp-controller="Transaction" method="post">
-    <span asp-validation-for="Amount">How much would you like to Withdraw?</span>
-    <label asp-for="Amount"></label> 
+    <label asp-for="Amount">How much would you like to Withdraw?</label> 
+    <span asp-validation-for="Amount" class="text text-danger"></span>
     <input asp-for="Amount">
     <input type="hidden" asp-for="UserId">
     <input type="submit" value="Submit">
