@@ -83,7 +83,7 @@ namespace GlobalATM.Controllers
                 HttpContext.Session.SetInt32("UserId", newUser.UserId);
                 return RedirectToAction("Dashboard");
             }
-
+            ModelState.AddModelError("SecurityQuestions", "Security questions are required. Click the button to proceed.");
             return View("Index");
         }
 
@@ -135,6 +135,8 @@ namespace GlobalATM.Controllers
         {
             return View("LogIn");
         }
+
+
 
         [HttpPost("Login")]
         public IActionResult Login(LogUser logUser)
@@ -190,6 +192,11 @@ namespace GlobalATM.Controllers
             User loggedUser = db.Users
                 .Include(u => u.Accounts)
                 .FirstOrDefault(u => u.UserId == (int)UUID);
+
+            if(loggedUser.CardNumber == null)
+            {
+                ViewBag.Message = "";
+            }
 
             ViewBag.allTransactions = db.Transactions
                 .Where(t => t.UserId == (int)UUID)
