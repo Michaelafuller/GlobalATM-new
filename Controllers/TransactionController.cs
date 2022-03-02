@@ -150,7 +150,6 @@ namespace GlobalATM.Controllers
             return RedirectToAction("LogIn", "Home");
         }
 
-
         [HttpGet("/transactions/currency-converter")]
         public IActionResult CurrencyConverter()
         {
