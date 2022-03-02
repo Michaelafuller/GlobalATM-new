@@ -47,55 +47,78 @@ namespace GlobalATM.Controllers
         [HttpGet("Withdraw")]
         public IActionResult Withdraw()
         {
-            if(!isLoggedIn)
-            {
-                return RedirectToAction("LogIn", "Home");
-            }
-                Account userAccount = db.Accounts
-                                        .Include("Transactions")
-                                        .FirstOrDefault(a => a.AccountNumber == HttpContext.Session.GetString("AccountNumber"));
-                ViewBag.UserAccount = userAccount;                          
-                return View("Withdraw");
-        }
-
-        [HttpGet("Deposit")]
-        public IActionResult Deposit()
-        {
-            if(!isLoggedIn)
+            if (!isLoggedIn)
             {
                 return RedirectToAction("LogIn", "Home");
             }
             Account userAccount = db.Accounts
                                     .Include("Transactions")
                                     .FirstOrDefault(a => a.AccountNumber == HttpContext.Session.GetString("AccountNumber"));
-            ViewBag.UserAccount = userAccount;                          
+            ViewBag.UserAccount = userAccount;
+            return View("Withdraw");
+        }
+
+        [HttpGet("Deposit")]
+        public IActionResult Deposit()
+        {
+            if (!isLoggedIn)
+            {
+                return RedirectToAction("LogIn", "Home");
+            }
+            Account userAccount = db.Accounts
+                                    .Include("Transactions")
+                                    .FirstOrDefault(a => a.AccountNumber == HttpContext.Session.GetString("AccountNumber"));
+            ViewBag.UserAccount = userAccount;
             return View("Deposit");
         }
 
         [HttpPost("Add")]
-        public IActionResult Add(double amount)
+        public async Task<ActionResult> Add(double amount)
         {
             if (isLoggedIn)
             {
                 Account user = db.Accounts
                                         .Include("Transactions")
                                         .FirstOrDefault(a => a.AccountNumber == HttpContext.Session.GetString("AccountNumber"));
-                ViewBag.UserAccount = user;                          
+                ViewBag.UserAccount = user;
 
-                User currentUser =  db.Users.FirstOrDefault(u => u.UserId == HttpContext.Session.GetInt32("UserId"));
+                User currentUser = db.Users.FirstOrDefault(u => u.UserId == HttpContext.Session.GetInt32("UserId"));
                 Account userAccount = db.Accounts.Include("Transactions").FirstOrDefault(a => a.AccountNumber == HttpContext.Session.GetString("AccountNumber"));
-                Transaction newTrans = null; 
-                if(amount > 0)
+                Transaction newTrans = null;
+                if (amount > 0)
                 {
-                    newTrans = new Transaction {
-                    Amount = amount,
-                    CreatedAt = DateTime.Now,
-                    UserId = currentUser.UserId
+                    newTrans = new Transaction
+                    {
+                        Amount = amount,
+                        CreatedAt = DateTime.Now,
+                        UserId = currentUser.UserId
                     };
-                userAccount.Transactions.Add(newTrans);
-                db.Add(newTrans);
-                db.SaveChanges();
-                return Redirect("Deposit");
+                    userAccount.Transactions.Add(newTrans);
+                    db.Add(newTrans);
+                    db.SaveChanges();
+
+                    String body = "<p> Hello, {0}</p> <p>Here is your receipt for your recent transacion with CSharp Global Banking System:</p><p>You made a deposit of ${1} on {2} to your account. Your new balance is ${3}.</p> <p>Thank you for banking with CSharp Global Banking Sytem";
+                    MailMessage message = new MailMessage();
+                    message.To.Add(new MailAddress(currentUser.Email)); 
+                    message.From = new MailAddress("CSharpGlobalBank@gmail.com");
+                    message.Subject = "Do Not Reply - CSharp Online Banking System - Your automated transaction receipt";
+                    message.Body = string.Format(body, currentUser.FirstName, newTrans.Amount, newTrans.CreatedAt, userAccount.Balance);
+                    message.IsBodyHtml = true;
+
+                    using (var smtp = new SmtpClient())
+                    {
+                        var credential = new NetworkCredential
+                        {
+                            UserName = "CSharpGlobalBank@gmail.com",
+                            Password = System.IO.File.ReadAllText("EmailSenderPW.txt"),
+                        };
+                        smtp.Credentials = credential;
+                        smtp.Host = "smtp.gmail.com";
+                        smtp.Port = 587;
+                        smtp.EnableSsl = true;
+                        await smtp.SendMailAsync(message);
+                        return RedirectToAction("Deposit");
+                    }
                 }
                 else
                 {
@@ -103,25 +126,25 @@ namespace GlobalATM.Controllers
                     return View("Deposit");
                 }
             }
-        return RedirectToAction("Login", "Home");
+            return RedirectToAction("Login", "Home");
         }
 
         [HttpPost("Subtract")]
-        public IActionResult Subtract(double amount)
+        public async Task<ActionResult> Subtract(double amount)
         {
             if (isLoggedIn)
             {
                 Account user = db.Accounts
                                         .Include("Transactions")
                                         .FirstOrDefault(a => a.AccountNumber == HttpContext.Session.GetString("AccountNumber"));
-                ViewBag.UserAccount = user;                          
+                ViewBag.UserAccount = user;
 
-                    User currentUser =  db.Users.FirstOrDefault(u => u.UserId == HttpContext.Session.GetInt32("UserId"));
-                    Account userAccount = db.Accounts.Include("Transactions").FirstOrDefault(a => a.AccountNumber == HttpContext.Session.GetString("AccountNumber"));
-                    Transaction newTrans = null;
-                if(amount > 0)
+                User currentUser = db.Users.FirstOrDefault(u => u.UserId == HttpContext.Session.GetInt32("UserId"));
+                Account userAccount = db.Accounts.Include("Transactions").FirstOrDefault(a => a.AccountNumber == HttpContext.Session.GetString("AccountNumber"));
+                Transaction newTrans = null;
+                if (amount > 0)
                 {
-                    amount = amount* -1;
+                    amount = amount * -1;
                 }
                 else
                 {
@@ -129,23 +152,46 @@ namespace GlobalATM.Controllers
                     return View("Withdraw");
                 }
                 if (amount + userAccount.Balance < 0)
+                {
+                    ModelState.AddModelError("Amount", "Insufficient funds");
+                    return View("Withdraw");
+                }
+                else
+                {
+                    newTrans = new Transaction
                     {
-                        ModelState.AddModelError("Amount", "Insufficient funds");
-                        return View("Withdraw");
-                    }
-                    else 
-                    {
-                        newTrans = new Transaction {
                         Amount = amount,
                         CreatedAt = DateTime.Now,
                         UserId = currentUser.UserId
                     };
-                        userAccount.Transactions.Add(newTrans);
-                        db.Add(newTrans);
-                        db.SaveChanges();
-                        return Redirect("Withdraw");
+                    userAccount.Transactions.Add(newTrans);
+                    db.Add(newTrans);
+                    db.SaveChanges();
+
+                    String body = "<p> Hello, {0}</p> <p>Here is your receipt for your recent transacion with CSharp Global Banking System:</p><p>You made a withdrawl of ${1} on {2} to your account. Your new balance is ${3}.</p> <p>Thank you for banking with CSharp Global Banking Sytem";
+                    MailMessage message = new MailMessage();
+                    message.To.Add(new MailAddress(currentUser.Email)); 
+                    message.From = new MailAddress("CSharpGlobalBank@gmail.com");
+                    message.Subject = "Do Not Reply - CSharp Online Banking System - Your automated transaction receipt";
+                    message.Body = string.Format(body, currentUser.FirstName, newTrans.Amount, newTrans.CreatedAt, userAccount.Balance);
+                    message.IsBodyHtml = true;
+
+                    using (var smtp = new SmtpClient())
+                    {
+                        var credential = new NetworkCredential
+                        {
+                            UserName = "CSharpGlobalBank@gmail.com",
+                            Password = System.IO.File.ReadAllText("EmailSenderPW.txt"),
+                        };
+                        smtp.Credentials = credential;
+                        smtp.Host = "smtp.gmail.com";
+                        smtp.Port = 587;
+                        smtp.EnableSsl = true;
+                        await smtp.SendMailAsync(message);
                     }
+                    return Redirect("Withdraw");
                 }
+            }
 
             return RedirectToAction("LogIn", "Home");
         }
@@ -153,7 +199,7 @@ namespace GlobalATM.Controllers
         [HttpGet("/transactions/currency-converter")]
         public IActionResult CurrencyConverter()
         {
-            if(!isLoggedIn)
+            if (!isLoggedIn)
             {
                 return RedirectToAction("LogIn", "Home");
             }
@@ -176,7 +222,7 @@ namespace GlobalATM.Controllers
             // String body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
             MailMessage message = new MailMessage();
             message.To.Add(new MailAddress("teamawesome2022@mail.com")); //will replace with user email
-            message.From = new MailAddress("CSharpGlobalBank@mail.com");
+            message.From = new MailAddress("CSharpGlobalBank@gmail.com");
             message.Subject = "Do Not Reply - CSharp Online Banking System - Your automated transaction receipt";
             message.Body = "<p> Message: testing 123 Here is the receipt for your transaction </p>"; //will replace with transaction details.
             message.IsBodyHtml = true;
@@ -185,15 +231,15 @@ namespace GlobalATM.Controllers
             {
                 var credential = new NetworkCredential
                 {
-                    UserName = "CSharpGlobalBank@mail.com",
+                    UserName = "CSharpGlobalBank@gmail.com",
                     Password = System.IO.File.ReadAllText("EmailSenderPW.txt"),
                 };
                 smtp.Credentials = credential;
-                smtp.Host = "smtp.mail.com";
+                smtp.Host = "smtp.gmail.com";
                 smtp.Port = 587;
                 smtp.EnableSsl = true;
                 await smtp.SendMailAsync(message);
-                return RedirectToAction("ReceiptButton");
+                return RedirectToAction("Deposit");
             }
         }
     }
