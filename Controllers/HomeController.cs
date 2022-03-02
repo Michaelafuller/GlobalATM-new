@@ -205,7 +205,7 @@ namespace GlobalATM.Controllers
             return View("Dashboard", loggedUser);
         }
 
-        [HttpPost("logout")]
+        [HttpPost("/logout")]
         public IActionResult LogOut()
         {
             HttpContext.Session.Clear();

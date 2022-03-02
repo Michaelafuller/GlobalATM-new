@@ -97,7 +97,7 @@ namespace GlobalATM.Controllers
                     db.Add(newTrans);
                     db.SaveChanges();
 
-                    String body = "<p> Hello, {0}</p> <p>Here is your receipt for your recent transacion with CSharp Global Banking System:</p><p>You made a deposit of ${1} on {2} to your account. Your new balance is ${3}.</p> <p>Thank you for banking with CSharp Global Banking Sytem.";
+                    String body = "<p> Hello, {0}</p> <p>Here is your receipt for your recent transacion with CSharp Global Banking System:</p><p>You made a deposit of ${1} on {2} to your account. Your new balance is ${3}.</p> <p>Thank you for banking with CSharp Global Banking Sytem.</p>";
                     MailMessage message = new MailMessage();
                     message.To.Add(new MailAddress(currentUser.Email)); 
                     message.From = new MailAddress("CSharpGlobalBank@gmail.com");
@@ -169,7 +169,7 @@ namespace GlobalATM.Controllers
                     db.Add(newTrans);
                     db.SaveChanges();
 
-                    String body = "<p> Hello, {0}</p> <p>Here is your receipt for your recent transacion with CSharp Global Banking System:</p><p>You made a withdrawl of ${1} on {2} to your account. Your new balance is ${3}.</p> <p>Thank you for banking with CSharp Global Banking Sytem.";
+                    String body = "<p> Hello, {0}</p> <p>Here is your receipt for your recent transacion with CSharp Global Banking System:</p><p>You made a withdrawl of ${1} on {2} to your account. Your new balance is ${3}.</p> <p>Thank you for banking with CSharp Global Banking Sytem.</p>";
                     MailMessage message = new MailMessage();
                     message.To.Add(new MailAddress(currentUser.Email)); 
                     message.From = new MailAddress("CSharpGlobalBank@gmail.com");
