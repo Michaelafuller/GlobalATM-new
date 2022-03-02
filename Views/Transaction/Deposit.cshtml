@@ -41,14 +41,14 @@
         var t;
         window.onload = resetTimer;
         window.onmousemove = resetTimer;
-        window.onmousedown = resetTimer;  // catches touchscreen presses as well      
-        window.ontouchstart = resetTimer; // catches touchscreen swipes as well      
-        window.ontouchmove = resetTimer;  // required by some devices 
-        window.onclick = resetTimer;      // catches touchpad clicks as well
+        window.onmousedown = resetTimer;     
+        window.ontouchstart = resetTimer; 
+        window.ontouchmove = resetTimer;  
+        window.onclick = resetTimer;      
         window.onkeydown = resetTimer;
         window.addEventListener('scroll', resetTimer, true); 
 
-        function yourFunction() {
+        function logOut() {
             alert("Your session has timed out due to inactivity. You will now be redirected to login page.");
             @{
                 Context.Session.Clear();
