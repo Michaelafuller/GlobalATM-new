@@ -1,9 +1,10 @@
 @model ConversionRaw
 
-@* <h1>Foreign Currency Converter</h1>
+<h1>Foreign Currency Converter</h1>
 <div class="form-group">
+    <form action="convert" method="get">
     <label>"From" Currency</label>
-    <select asp-for="ConvertCurrency">
+    <select asp-for="Base_Currency_Code">
         <option value="USD">USD</option>
         <option value="UAD">UAD</option>
         <option value="CAD">CAD</option>
@@ -12,12 +13,13 @@
     </select>
     img? 
     <p>--></p>
-    <select asp-for="ConvertCurrency">
+    <select asp-for="to">
         <option value="USD">USD</option>
         <option value="UAD">UAD</option>
         <option value="CAD">CAD</option>
         <option value="MXN">MXN</option>
     </select>
-    <input type="number" placeholder="How much do you want to convert?">
+    <input type="number" asp-for="amount" placeholder="How much do you want to convert?">
     <button class="btn btn-success">Convert</button>
-</div> *@
+    </form>
+</div>
