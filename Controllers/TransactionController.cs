@@ -206,41 +206,5 @@ namespace GlobalATM.Controllers
 
             return View("CurrencyConverter");
         }
-
-        // *****************************************************//
-        // Transaction Receipt
-
-        [HttpGet("/receipt-button")]
-        public IActionResult ReceiptButton()
-        {
-            return View("SendReceipt");
-        }
-
-        [HttpPost("/send-receipt")]
-        public async Task<ActionResult> SendReceipt() //Can pass variables into function
-        {
-            // String body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
-            MailMessage message = new MailMessage();
-            message.To.Add(new MailAddress("teamawesome2022@mail.com")); //will replace with user email
-            message.From = new MailAddress("CSharpGlobalBank@gmail.com");
-            message.Subject = "Do Not Reply - CSharp Online Banking System - Your automated transaction receipt";
-            message.Body = "<p> Message: testing 123 Here is the receipt for your transaction </p>"; //will replace with transaction details.
-            message.IsBodyHtml = true;
-
-            using (var smtp = new SmtpClient())
-            {
-                var credential = new NetworkCredential
-                {
-                    UserName = "CSharpGlobalBank@gmail.com",
-                    Password = System.IO.File.ReadAllText("EmailSenderPW.txt"),
-                };
-                smtp.Credentials = credential;
-                smtp.Host = "smtp.gmail.com";
-                smtp.Port = 587;
-                smtp.EnableSsl = true;
-                await smtp.SendMailAsync(message);
-                return RedirectToAction("Deposit");
-            }
-        }
     }
 }
