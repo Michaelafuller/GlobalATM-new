@@ -12,11 +12,14 @@ using Microsoft.AspNetCore.Http;
 using GlobalATM.Models;
 using System.Net.Mail;
 using System.Net;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
 
 namespace GlobalATM.Controllers
 {
 
-    public class ConversionController : Controller
+    public class ConversionController : ControllerBase
     {
 
         private int? UUID
@@ -43,5 +46,10 @@ namespace GlobalATM.Controllers
             _logger = logger;
             db = context;
         }
+
+        // [ApiController]
+        // [Route("/conversion")]
+        // public 
+
     }
 }
