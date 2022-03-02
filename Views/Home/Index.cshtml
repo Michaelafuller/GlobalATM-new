@@ -36,16 +36,16 @@
     <div class="form-group" id="box">
         <label asp-for="CardNumber"></label>
         <input class="form-control" asp-for="CardNumber">
-        <span asp-validation-for="Birthday" class="text-danger"></span>
+        <span asp-validation-for="CardNumber" class="text-danger"></span>
     </div>
     <div class="form-group" id="box">
         <label asp-for="AccountNumber"></label>
         <input class="form-control" asp-for="AccountNumber">
-        <span asp-validation-for="Birthday" class="text-danger"></span>
+        <span asp-validation-for="AccountNumber" class="text-danger"></span>
     </div>
     <div class="form-group">
         <span asp-validation-for="Pin" class="text-danger"></span>
-        <label asp-for="Pin"></label>
+        <label asp-for="Pin">Pin (4 digits)</label>
         <input class="form-control" asp-for="Pin">
     </div>
     <div class="form-group">
@@ -53,5 +53,5 @@
         <label asp-for="Confirm"></label>
         <input class="form-control" asp-for="Confirm">
     </div>
-    <input class="btn btn-primary" type="submit" value="Register">
+    <input class="btn white-btn" type="submit" value="Register">
 </form>

@@ -11,8 +11,8 @@
         @* etc... *@
     </select>
 </div>
-    @* img?  *@
-    <p>--></p>
+
+
 
 <div class="form-group">
         <label>"To" Currency</label>
@@ -23,7 +23,9 @@
         <option value="CAD">CAD</option>
         <option value="MXN">MXN</option>
     </select>
-    <input asp-for="Amount" placeholder="How much do you want to convert?">
-    <button class="btn btn-success">Convert</button>
 </div>
 
+<div class="form-group">
+    <input id="convert-input" asp-for="Amount" placeholder="How much do you want to convert?">
+    <button class="btn white-btn">Convert</button>
+</div>
