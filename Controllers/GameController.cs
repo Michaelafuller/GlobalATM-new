@@ -85,17 +85,18 @@ namespace GlobalATM.Controllers
         }
 
         [HttpPost("/game/submit")]
-        public IActionResult GameVerifyUser(User verifiedUser, string bestKPop)
+        public IActionResult GameVerifyUser(User verifiedUser)
         {
             if(isLoggedIn)
             {
                 User loggedUser = db.Users
                     .FirstOrDefault(u => u.UserId == (int)UUID);
 
-                if(verifiedUser.FaveColor == loggedUser.FaveColor && verifiedUser.Breakfast == loggedUser.Breakfast && verifiedUser.AvgSpeedSwallow == loggedUser.AvgSpeedSwallow && bestKPop == "BTS")
+                if(verifiedUser.FaveColor == loggedUser.FaveColor && verifiedUser.Breakfast == loggedUser.Breakfast && verifiedUser.AvgSpeedSwallow == loggedUser.AvgSpeedSwallow && verifiedUser.KPop == loggedUser.KPop && verifiedUser.DOB == loggedUser.DOB)
                 {
                     return RedirectToAction("AccountRecovery");
                 }
+                // Lock account? 
                 return RedirectToAction("LogIn", "Home");
             }
             return RedirectToAction("LogIn", "Home");

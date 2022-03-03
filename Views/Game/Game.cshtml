@@ -1,41 +1,53 @@
 @model User
-<div class="container">
-<h1 class="text-center">Security Questions</h1>
-    <form asp-controller="Game" asp-action="GameVerifyUser">
-    <div id="faveColor" class="card shadow rounded mx-auto w-25" style="width: 18rem;">
-        <div class="card-body">
-            <h5 class="card-title text-dark text-center">What is your favorite color?</h5>
+<div id="game-background">
+    <iframe width="1280" height="720" src="https://www.youtube.com/embed/HnipUL0xo0I? &autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <div id="game-container">
+        <h1 class="text-center">Security Questions</h1>
+        <form asp-controller="Game" asp-action="GameVerifyUser">
+            <div id="faveColor" class="card shadow rounded mx-auto w-25" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title text-dark text-center">What is your favorite color?</h5>
                     <span asp-validation-for="FaveColor"></span>
                     <label asp-for="FaveColor"></label>
                     <input class="form-control" asp-for="FaveColor">
-                
-            <a onclick="HideDivfaveColor()" class="btn btn-primary mt-2">Next</a>
-        </div>
-    </div>
-    <div id="breakFast" class="card shadow rounded mx-auto w-25" style="width: 18rem; display: none;">
-        <div class="card-body">
-            <h5 class="card-title text-dark text-center">What did you have for breakfast?</h5>
+
+                    <a onclick="HideDivfaveColor()" class="btn btn-primary mt-2">Next</a>
+                </div>
+            </div>
+            <div id="breakFast" class="card shadow rounded mx-auto w-25" style="width: 18rem; display: none;">
+                <div class="card-body">
+                    <h5 class="card-title text-dark text-center">What did you have for breakfast?</h5>
                     <span asp-validation-for="Breakfast"></span>
                     <label asp-for="Breakfast"></label>
                     <input class="form-control" asp-for="Breakfast">
-            <a onclick="HideDivbreakFast()" class="btn btn-primary mt-2">Next</a>
-        </div>
-    </div>
-    <div id="avgSpeedSwallow" class="card shadow rounded mx-auto w-25" style="width: 18rem; display: none;">
-        <div class="card-body">
-            <h5 class="card-title text-dark text-center">What is the average air/speed velocity of an unladen swallow?</h5>
+                    <a onclick="HideDivbreakFast()" class="btn btn-primary mt-2">Next</a>
+                </div>
+            </div>
+            <div id="avgSpeedSwallow" class="card shadow rounded mx-auto w-25" style="width: 18rem; display: none;">
+                <div class="card-body">
+                    <h5 class="card-title text-dark text-center">What is the average air/speed velocity of an unladen
+                        swallow?</h5>
                     <span asp-validation-for="AvgSpeedSwallow"></span>
                     <label asp-for="AvgSpeedSwallow"></label>
                     <input class="form-control" asp-for="AvgSpeedSwallow">
-            <a onclick="HideDivavgSpeedSwallow()" class="btn btn-primary mt-2">Next</a>
-        </div>
+                    <a onclick="HideDivavgSpeedSwallow()" class="btn btn-primary mt-2">Next</a>
+                </div>
+            </div>
+            <div id="bestKPop" class="card shadow rounded mx-auto w-25" style="width: 18rem; display: none;">
+                <div class="card-body">
+                    <h5 class="card-title text-dark text-center">Which K-Pop band is the best?</h5>
+                    <input class="form-control" asp-for="KPop">
+                    <a onclick="HideDivbestKPop()" class="btn btn-primary mt-2">Next</a>
+                </div>
+            </div>
+            <div id="leastCommonBirthday" class="card shadow rounded mx-auto w-25" style="width: 18rem; display: none;">
+                <div class="card-body">
+                    <h5 class="card-title text-dark text-center">Which day of the year is the best day to be born on?</h5>
+                    <input class="form-control" asp-for="DOB">
+                    <button class="btn btn-success mt-2">Submit</button>
+                </div>
+            </div>
+        </form>
     </div>
-    <div id="bestKPop" class="card shadow rounded mx-auto w-25" style="width: 18rem; display: none;">
-        <div class="card-body">
-            <h5 class="card-title text-dark text-center">Which K-Pop band is the best?</h5>
-                    <input class="form-control" for="bestKPop" asp-route-bestKPop="bestKPop">
-            <button class="btn btn-success mt-2">Submit</button>
-        </div>
-    </div>
-    </form>
 </div>
+

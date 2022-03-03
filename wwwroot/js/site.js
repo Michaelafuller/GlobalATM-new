@@ -50,3 +50,14 @@ function HideDivavgSpeedSwallow()
         bestKPop.style.display = "block"
 
 }
+function HideDivbestKPop()
+{
+    let dob = document.getElementById("leastCommonBirthday");
+    let bestKPop = document.getElementById("bestKPop");
+
+
+        bestKPop.style.display = "none"
+        dob.style.display = "block"
+
+}
+
