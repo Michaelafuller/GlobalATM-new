@@ -31,6 +31,7 @@ namespace GlobalATM
             // to access session directly from view, corresponds with: @using Microsoft.AspNetCore.Http in Views/_ViewImports.cshtml
             services.AddHttpContextAccessor();
             services.AddSession();
+            services.AddControllersWithViews();
             services.AddMvc(options => options.EnableEndpointRouting = false);
         }
 
@@ -44,14 +45,18 @@ namespace GlobalATM
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
             }
 
             // css, js, and image files can now be added to wwwroot folder
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSession();
-            app.UseMvc(routes =>
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
