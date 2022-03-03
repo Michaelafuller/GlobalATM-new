@@ -67,10 +67,49 @@ namespace GlobalATM.Controllers
                                         .FirstOrDefault(a => a.AccountNumber == HttpContext.Session.GetString("AccountNumber"));
                 userAccount.IsCardStolen = true;
                 db.SaveChanges();
-                return View ("Game");
+                return RedirectToAction("Game");
             }
             return RedirectToAction("LogIn", "Home");
         }
 
+        [HttpGet("/game")]
+        public IActionResult Game()
+        {
+            if(isLoggedIn)
+            {
+                User loggedUser = db.Users
+                    .FirstOrDefault(u => u.UserId == (int)UUID);
+                return View("Game");
+            }
+            return RedirectToAction("LogIn", "Home");
+        }
+
+        [HttpPost("/game/submit")]
+        public IActionResult GameVerifyUser(User verifiedUser)
+        {
+            if(isLoggedIn)
+            {
+                User loggedUser = db.Users
+                    .FirstOrDefault(u => u.UserId == (int)UUID);
+
+                if(verifiedUser.FaveColor == loggedUser.FaveColor && verifiedUser.Breakfast == loggedUser.Breakfast && verifiedUser.AvgSpeedSwallow == loggedUser.AvgSpeedSwallow && verifiedUser.KPop == loggedUser.KPop && verifiedUser.DOB == loggedUser.DOB)
+                {
+                    return RedirectToAction("AccountRecovery");
+                }
+                // Lock account? 
+                return RedirectToAction("LogIn", "Home");
+            }
+            return RedirectToAction("LogIn", "Home");
+        }
+
+        [HttpGet("/game/accountrecovery/success")]
+        public IActionResult AccountRecovery()
+        {
+            if(isLoggedIn)
+            {
+                return View("AccountRecovery");
+            }
+            return RedirectToAction("LogIn", "Home");
+        }
     }
 }
