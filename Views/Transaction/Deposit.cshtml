@@ -36,30 +36,46 @@
     </tbody>
 </table>
 
+<div id="idleModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Session TimeOut</h5>
+            </div>
+            <div class="modal-body">
+                <p>You're being timed out due to inactivity. Please choose whether to stay signed in or to logout.</p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Stay Signed In</button>
+                    <form id="timeout" asp-action="LogOut" method="post" asp-controller="Home">
+                        <input class="btn btn-secondary" type="submit" value="Logout">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     function idleLogout() {
         var t;
         window.onload = resetTimer;
         window.onmousemove = resetTimer;
-        window.onmousedown = resetTimer;     
-        window.ontouchstart = resetTimer; 
-        window.ontouchmove = resetTimer;  
-        window.onclick = resetTimer;      
+        window.onmousedown = resetTimer;
+        window.ontouchstart = resetTimer;
+        window.ontouchmove = resetTimer;
+        window.onclick = resetTimer;
         window.onkeydown = resetTimer;
-        window.addEventListener('scroll', resetTimer, true); 
+        window.addEventListener('scroll', resetTimer, true);
 
-        function logOut() {
-            alert("Your session has timed out due to inactivity. You will now be redirected to login page.");
-            @{
-                Context.Session.Clear();
-            }
-            window.location.href=("/login");
+        function yourFunction() {
+            $('#idleModal').modal('show');
         }
 
         function resetTimer() {
             clearTimeout(t);
-            t = setTimeout(yourFunction, 3000);  // time is in milliseconds
+            t = setTimeout(yourFunction, 5000);  // time is in milliseconds
         }
     }
     idleLogout();
+
 </script>

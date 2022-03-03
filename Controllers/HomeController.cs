@@ -45,6 +45,9 @@ namespace GlobalATM.Controllers
         [HttpGet("/")]
         public IActionResult Index()
         {
+            if(isLoggedIn){
+                return RedirectToAction("Dashboard");
+            }
             return View("Index");
         }
 
@@ -133,6 +136,9 @@ namespace GlobalATM.Controllers
         [HttpGet("/login")]
         public IActionResult LogIn()
         {
+            if(isLoggedIn){
+                return RedirectToAction("Dashboard");
+            }
             return View("LogIn");
         }
 
