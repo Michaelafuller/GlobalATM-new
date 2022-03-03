@@ -3,22 +3,20 @@
 
 // Write your JavaScript code.
 
-function hideCardOrAccount(obj)
-{
+function hideCardOrAccount(obj) {
     let accountNum = document.getElementById("AccountNum");
     let cardNum = document.getElementById("CardNum");
-    
-    if(obj.value == "Checking")
-    {
+
+    if (obj.value == "Checking") {
         accountNum.style.display = "none";
         cardNum.style.display = "block";
     }
-    if(obj.value == "Saving")
-    {
+    if (obj.value == "Saving") {
         cardNum.style.display = "none";
         accountNum.style.display = "block";
     }
 }
+
 
 function HideDivfaveColor()
 {
@@ -85,3 +83,5 @@ currencyOne.addEventListener('change', calculate);
 amountone.addEventListener('input', calculate);
 currencyTwo.addEventListener('change', calculate);
 amounttwo.addEventListener('input', calculate);
+
+

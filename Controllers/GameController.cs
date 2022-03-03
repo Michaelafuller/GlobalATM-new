@@ -47,19 +47,19 @@ namespace GlobalATM.Controllers
         [HttpGet("/reportlostorstolen")]
         public IActionResult ReportLostOrStolen()
         {
-            if(!isLoggedIn)
+            if (!isLoggedIn)
             {
                 return RedirectToAction("LogIn", "Home");
             }
             User loggedUser = db.Users
                 .Include(u => u.Accounts)
                 .FirstOrDefault(u => u.UserId == (int)UUID);
-        
-                return View("ReportLostOrStolen", loggedUser);
+
+            return View("ReportLostOrStolen", loggedUser);
         }
 
         [HttpPost("/stolen")]
-        public IActionResult YesCardStolen()
+        public async Task<ActionResult> YesCardStolen()
         {
             if (isLoggedIn)
             {
@@ -67,7 +67,32 @@ namespace GlobalATM.Controllers
                                         .FirstOrDefault(a => a.AccountNumber == HttpContext.Session.GetString("AccountNumber"));
                 userAccount.IsCardStolen = true;
                 db.SaveChanges();
-                return RedirectToAction("Game");
+
+                User currentUser = db.Users.FirstOrDefault(u => u.UserId == HttpContext.Session.GetInt32("UserId"));
+
+                String body = "<p> Hello, {0}</p> <p>Your ATM card was recently reported as stolen via one of our ATM Machines on {1}. If you did not do this, please change your account pin and contact customer service for additional assistance.</p> <p>Thank you for banking with CSharp Global Banking Sytem.</p>";
+                MailMessage message = new MailMessage();
+                message.To.Add(new MailAddress(currentUser.Email));
+                message.From = new MailAddress("CSharpGlobalBank@gmail.com");
+                message.Subject = "Do Not Reply - CSharp Online Banking System";
+                message.Body = string.Format(body, currentUser.FirstName, userAccount.UpdatedAt);
+                message.IsBodyHtml = true;
+
+                using (var smtp = new SmtpClient())
+                {
+                    var credential = new NetworkCredential
+                    {
+                        UserName = "CSharpGlobalBank@gmail.com",
+                        Password = System.IO.File.ReadAllText("EmailSenderPW.txt"),
+                    };
+                    smtp.Credentials = credential;
+                    smtp.Host = "smtp.gmail.com";
+                    smtp.Port = 587;
+                    smtp.EnableSsl = true;
+                    await smtp.SendMailAsync(message);
+                    TempData["Success"] = "Your deposit has been processed. Please check your email for receipt.";
+                    return View("Game");
+                }
             }
             return RedirectToAction("LogIn", "Home");
         }

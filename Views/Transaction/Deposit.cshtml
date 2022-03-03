@@ -8,6 +8,15 @@
     <input type="hidden" asp-for="UserId">
     <input type="submit" value="Submit">
 </form>
+
+@{
+    string message = TempData["Success"] as string;
+    if (message != null)
+    {
+        <div class="text-success">@message</div>
+    }
+}
+
 <hr>
 <table class="table table-hover">
     <thead>
@@ -17,12 +26,56 @@
         </tr>
     </thead>
     <tbody>
-    @foreach(var t in @ViewBag.UserAccount.Transactions)
-    {
-        <tr>
-            <td>$@t.Amount</td>
-            <td>@t.CreatedAt</td>
-        </tr>
-    }
+        @foreach (var t in @ViewBag.UserAccount.Transactions)
+        {
+            <tr>
+                <td>$@t.Amount</td>
+                <td>@t.CreatedAt</td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<div id="idleModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Session TimeOut</h5>
+            </div>
+            <div class="modal-body">
+                <p>You're being timed out due to inactivity. Please choose whether to stay signed in or to logout.</p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Stay Signed In</button>
+                    <form id="timeout" asp-action="LogOut" method="post" asp-controller="Home">
+                        <input class="btn btn-secondary" type="submit" value="Logout">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function idleLogout() {
+        var t;
+        window.onload = resetTimer;
+        window.onmousemove = resetTimer;
+        window.onmousedown = resetTimer;
+        window.ontouchstart = resetTimer;
+        window.ontouchmove = resetTimer;
+        window.onclick = resetTimer;
+        window.onkeydown = resetTimer;
+        window.addEventListener('scroll', resetTimer, true);
+
+        function yourFunction() {
+            $('#idleModal').modal('show');
+        }
+
+        function resetTimer() {
+            clearTimeout(t);
+            t = setTimeout(yourFunction, 5000);  // time is in milliseconds
+        }
+    }
+    idleLogout();
+
+</script>

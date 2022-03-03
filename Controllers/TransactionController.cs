@@ -97,7 +97,7 @@ namespace GlobalATM.Controllers
                     db.Add(newTrans);
                     db.SaveChanges();
 
-                    String body = "<p> Hello, {0}</p> <p>Here is your receipt for your recent transacion with CSharp Global Banking System:</p><p>You made a deposit of ${1} on {2} to your account. Your new balance is ${3}.</p> <p>Thank you for banking with CSharp Global Banking Sytem";
+                    String body = "<p> Hello, {0}</p> <p>Here is your receipt for your recent transacion with CSharp Global Banking System:</p><p>You made a deposit of ${1} on {2} to your account. Your new balance is ${3}.</p> <p>Thank you for banking with CSharp Global Banking Sytem.</p>";
                     MailMessage message = new MailMessage();
                     message.To.Add(new MailAddress(currentUser.Email)); 
                     message.From = new MailAddress("CSharpGlobalBank@gmail.com");
@@ -117,6 +117,7 @@ namespace GlobalATM.Controllers
                         smtp.Port = 587;
                         smtp.EnableSsl = true;
                         await smtp.SendMailAsync(message);
+                        TempData["Success"] = "Your deposit has been processed. Please check your email for receipt.";
                         return RedirectToAction("Deposit");
                     }
                 }
@@ -168,7 +169,7 @@ namespace GlobalATM.Controllers
                     db.Add(newTrans);
                     db.SaveChanges();
 
-                    String body = "<p> Hello, {0}</p> <p>Here is your receipt for your recent transacion with CSharp Global Banking System:</p><p>You made a withdrawl of ${1} on {2} to your account. Your new balance is ${3}.</p> <p>Thank you for banking with CSharp Global Banking Sytem";
+                    String body = "<p> Hello, {0}</p> <p>Here is your receipt for your recent transacion with CSharp Global Banking System:</p><p>You made a withdrawl of ${1} on {2} to your account. Your new balance is ${3}.</p> <p>Thank you for banking with CSharp Global Banking Sytem.</p>";
                     MailMessage message = new MailMessage();
                     message.To.Add(new MailAddress(currentUser.Email)); 
                     message.From = new MailAddress("CSharpGlobalBank@gmail.com");
@@ -188,6 +189,7 @@ namespace GlobalATM.Controllers
                         smtp.Port = 587;
                         smtp.EnableSsl = true;
                         await smtp.SendMailAsync(message);
+                        TempData["Success"] = "Your withdrawal has been processed. Please collect your money and check your email for receipt.";
                     }
                     return Redirect("Withdraw");
                 }
@@ -205,42 +207,6 @@ namespace GlobalATM.Controllers
             }
 
             return View("CurrencyConverter");
-        }
-
-        // *****************************************************//
-        // Transaction Receipt
-
-        [HttpGet("/receipt-button")]
-        public IActionResult ReceiptButton()
-        {
-            return View("SendReceipt");
-        }
-
-        [HttpPost("/send-receipt")]
-        public async Task<ActionResult> SendReceipt() //Can pass variables into function
-        {
-            // String body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
-            MailMessage message = new MailMessage();
-            message.To.Add(new MailAddress("teamawesome2022@mail.com")); //will replace with user email
-            message.From = new MailAddress("CSharpGlobalBank@gmail.com");
-            message.Subject = "Do Not Reply - CSharp Online Banking System - Your automated transaction receipt";
-            message.Body = "<p> Message: testing 123 Here is the receipt for your transaction </p>"; //will replace with transaction details.
-            message.IsBodyHtml = true;
-
-            using (var smtp = new SmtpClient())
-            {
-                var credential = new NetworkCredential
-                {
-                    UserName = "CSharpGlobalBank@gmail.com",
-                    Password = System.IO.File.ReadAllText("EmailSenderPW.txt"),
-                };
-                smtp.Credentials = credential;
-                smtp.Host = "smtp.gmail.com";
-                smtp.Port = 587;
-                smtp.EnableSsl = true;
-                await smtp.SendMailAsync(message);
-                return RedirectToAction("Deposit");
-            }
         }
     }
 }
