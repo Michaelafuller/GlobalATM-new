@@ -1,6 +1,9 @@
 @model Transaction
 <h1>Welcome</h1>
-<p>Current balance: $@ViewBag.UserAccount.Balance</p>
+@if (ViewBag.UserAccount.Balance != null)
+{
+    <p>Current balance: $@ViewBag.UserAccount.Balance</p>
+}
 <form asp-action="Add" asp-controller="Transaction" method="post">
     <label asp-for="Amount">How much would you like to Deposit?</label>
     <span asp-validation-for="Amount" class="text text-danger"></span>
@@ -25,25 +28,32 @@
             <th>Date</th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var t in @ViewBag.UserAccount.Transactions)
+
+        @foreach (var t in @ViewBag.allTransactions)
         {
             <tr>
-                <td>$@t.Amount</td>
+                @if(@t.Amount < 0)
+                {
+                    <td class="text-danger">$@t.Amount</td>
+                }
+                else
+                {
+                    <td>$@t.Amount</td>
+                }
                 <td>@t.CreatedAt</td>
             </tr>
         }
-    </tbody>
+    
 </table>
 
 <div id="idleModal" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Session TimeOut</h5>
+                <h5 class="modal-title text-dark">Session TimeOut</h5>
             </div>
             <div class="modal-body">
-                <p>You're being timed out due to inactivity. Please choose whether to stay signed in or to logout.</p>
+                <p class="text-dark">You're being timed out due to inactivity. Please choose whether to stay signed in or to logout.</p>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Stay Signed In</button>
                     <form id="timeout" asp-action="LogOut" method="post" asp-controller="Home">

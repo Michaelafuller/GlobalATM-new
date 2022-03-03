@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
+//this goes unused with current api and foreign currency converter using only JS. This can be CHANGED
 namespace GlobalATM.Models
 {
     public class ConversionRaw
@@ -22,6 +23,7 @@ namespace GlobalATM.Models
     {
         public ConversionRaw[] conversion {get;set;}
     }
+    //this is our deserialized json object, but need work to display
     // var conversionObject = JsonConvert.DeserializeObject<ConversionObject>(json);
 
 } 

@@ -64,7 +64,7 @@ const currencyTwo = document.getElementById("Currency2");
 const amountone = document.getElementById("amount1");
 const amounttwo = document.getElementById("amount2");
 const rate1 = document.getElementById("rate");
-// const swap = document.getElementById("select1");
+
 
 function calculate(){
     const currency_one = currencyOne.value;

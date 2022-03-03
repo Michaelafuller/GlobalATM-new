@@ -23,9 +23,13 @@
         <input class="form-control" asp-for="Email">
     </div>
     <div class="form-group">
+        <span asp-validation-for="Birthday" class="text-danger"></span>
         <label asp-for="Birthday"></label>
         <input type="date" asp-for="Birthday" class="form-control">
-        <span asp-validation-for="Birthday" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="AccountAccuracy"></label>
+        <span asp-validation-for="AccountAccuracy" class="text-danger"></span>
     </div>
     <div class="form-group">
         <select onchange="hideCardOrAccount(this)" asp-for="AccountType" class="form-control">
