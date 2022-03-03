@@ -77,6 +77,13 @@ namespace GlobalATM.Models
         [MinLength(12,ErrorMessage = "Account number must be a length of 12")]
         public string AccountNumber {get; set;}
 
+
+        [NotMapped]
+        public string KPop { get; set; } = "BTS";
+
+        [NotMapped]
+        public string DOB { get; set; } = "October 31st";
+
         public class MinAge : ValidationAttribute
         {
             private int _Limit;

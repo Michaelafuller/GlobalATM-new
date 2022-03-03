@@ -1,9 +1,5 @@
 @model User
 
-<p>Time Left:
-    <span id="countdown"></span>
-</p>
-
 <h1>Welcome, @Model.FirstName</h1>
 
 @if (Model.AccountType == "Saving")
@@ -37,25 +33,12 @@
 <a class="btn white-btn" asp-controller="Transaction" asp-action="Withdraw">Withdraw</a>
 <a class="btn white-btn" asp-controller="Transaction" asp-action="Deposit">Deposit</a>
 <a class="btn white-btn" asp-controller="Transaction" asp-action="CurrencyConverter">Foreign Currency Converter</a>
-<a class="btn white-btn" asp-controller="Game" asp-action="ReportLostOrStolen">Report Lost / Stolen Card</a>
 
-    
-<div id="timeoutModal" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Sorry</h5>
-            </div>
-            <div class="modal-body">
-                <p>We are not able to confirm your identity at this time. You will now be automatically logged out.</p>
-                <div class="modal-footer">
-                    <form id = "timeout" asp-action="LogOut" method="post" asp-controller="Home">
-                        <input class="btn btn-success" type="submit" value="Ok">
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+@if(Model.AccountType == "Checking")
+{
+    <a class="btn white-btn" asp-controller="Game" asp-action="ReportLostOrStolen">Report Lost / Stolen Card</a>
+}
+
+
 
 
