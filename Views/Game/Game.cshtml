@@ -1,9 +1,6 @@
 @model User
 <div id="game-background">
-    <iframe width="1280" height="720" src="https://www.youtube.com/embed/HnipUL0xo0I? &autoplay=1"
-        title="YouTube video player" frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen></iframe>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/HnipUL0xo0I?start=22 &autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     <div id="game-container">
         <h1 class="text-center">Security Questions</h1>
         <form asp-controller="Game" asp-action="GameVerifyUser">
@@ -53,20 +50,25 @@
             </div>
         </form>
         <div>
-            <h1>Time Left:
+            <h1 class="text-danger">Time Left:
                 <span id="countdown"></span>
             </h1>
         </div>
+
+    </div>
+</div>
+
+
 
         @* Hidden Modal pops up when timer runs out *@
         <div id="timeoutModal" class="modal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Sorry</h5>
+                        <h5 class="modal-title text-dark">Sorry</h5>
                     </div>
                     <div class="modal-body">
-                        <p>We are not able to confirm your identity at this time. You will now be automatically logged
+                        <p class="text-dark">We are not able to confirm your identity at this time. You will now be automatically logged
                             out.</p>
                         <div class="modal-footer">
                             <form id="timeout" asp-action="LogOut" method="post" asp-controller="Home">
@@ -77,11 +79,6 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-
-
 
 
 <script>
@@ -109,7 +106,7 @@
     }
 
     window.onload = function () {
-        var testseconds = 60,
+        var testseconds = 30,
             display = document.querySelector('#countdown');
         gameTimer(testseconds, display);
     };
