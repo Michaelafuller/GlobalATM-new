@@ -29,7 +29,7 @@
     @foreach(var t in @ViewBag.UserAccount.Transactions)
     {
         <tr>
-            <td>@t.Amount</td>
+            <td>$@t.Amount</td>
             <td>@t.CreatedAt</td>
         </tr>
     }
