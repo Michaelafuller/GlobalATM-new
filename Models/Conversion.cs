@@ -12,6 +12,8 @@ namespace GlobalATM.Models
         public string Base_Currency_Code {get; set;}
         public string Base_Currency_Name {get;set;}
 
+        public string Currency_Name {get;set;}
+
         public double Rate {get; set;}
         public double Rate_For_Amount {get;set;}
 

@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Net.Http;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace GlobalATM
 {
@@ -14,6 +17,7 @@ namespace GlobalATM
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
+            
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
