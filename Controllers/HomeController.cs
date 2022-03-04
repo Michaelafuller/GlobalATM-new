@@ -59,21 +59,21 @@ namespace GlobalATM.Controllers
                 return RedirectToAction("Dashboard");
             }
 
-            // Checking existinCardNumber = db.Checkings.
-            //                                 FirstOrDefault(cn => cn.CardNumber == newUser.CardNumber);
-            // if (existinCardNumber != null) 
-            // {
-            //     ModelState.AddModelError("AccountAccuracy", "This number is already registered");
-            //     return View("Index");
-            // }
+            Checking existinCardNumber = db.Checkings.
+                                            FirstOrDefault(cn => cn.CardNumber == newUser.CardNumber);
+            if (existinCardNumber != null) 
+            {
+                ModelState.AddModelError("AccountAccuracy", "This number is already registered");
+                return View("Index");
+            }
 
-            // Account existingSavingAccount = db.Accounts.
-            //                                     FirstOrDefault(sa => sa.AccountNumber == newUser.AccountNumber);
-            // if (existingSavingAccount != null)
-            // {
-            //     ModelState.AddModelError("AccountAccuracy", "This number is already registered");
-            //     return View("Index");
-            // }
+            Account existingSavingAccount = db.Accounts.
+                                                FirstOrDefault(sa => sa.AccountNumber == newUser.AccountNumber);
+            if (existingSavingAccount != null)
+            {
+                ModelState.AddModelError("AccountAccuracy", "This number is already registered");
+                return View("Index");
+            }
 
             if (ModelState.IsValid) 
             {
