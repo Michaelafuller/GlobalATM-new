@@ -1,35 +1,48 @@
 @model User
+
 <h1>Welcome, @Model.FirstName</h1>
 
-@if(Model.AccountType == "Saving")
-    {
-        <p>Global ATM's Saving Accounts boast a hefty 5% APR!</p>
-    }
+@if (Model.AccountType == "Saving")
+{
+    <p>Global ATM's Saving Accounts boast a hefty 5% APR!</p>
+}
 
+<h4>@Model.AccountType</h4>
+<p>Current balance: $@ViewBag.Balance</p>
 
 @foreach (var item in Model.Accounts)
-    {
+{
     <table class="table table-striped">
-        <tr>
-            @* A ViewBag to get the associated account (checking vs. savings) to the account id? *@
-            <th>@item.AccountId</th> 
-            @* <th>Type of Transaction?</th> *@
-            <th>Amount</th>
-            <th>Date</th>
-            @foreach (var transaction in ViewBag.allTransactions)
+    <tr>
+        <th>Amount</th>
+        <th>Date</th>
+        @foreach (var transaction in ViewBag.allTransactions)
             {
-                <tr>
-                    <td>@item.AccountId</td>
+            <tr>
+                @if(@transaction.Amount < 0)
+                {
+                    <td class="text-danger">$@transaction.Amount</td>
+                }
+                else
+                {
                     <td>$@transaction.Amount</td>
-                    <td>@transaction.CreatedAt</td>
-                </tr>
+                }
+                <td>@transaction.CreatedAt</td>
+            </tr>
             }
         </tr>
     </table>
-    }
-@* we can format the look of this later -- just added for navigation *@
-@* we can change routes, also. *@
+}
+
 <a class="btn white-btn" asp-controller="Transaction" asp-action="Withdraw">Withdraw</a>
 <a class="btn white-btn" asp-controller="Transaction" asp-action="Deposit">Deposit</a>
 <a class="btn white-btn" asp-controller="Transaction" asp-action="CurrencyConverter">Foreign Currency Converter</a>
-<a class="btn white-btn" asp-controller="Game" asp-action="ReportLostOrStolen">Report Lost / Stolen Card</a>
+
+@if(Model.AccountType == "Checking")
+{
+    <a class="btn white-btn" asp-controller="Game" asp-action="ReportLostOrStolen">Report Lost / Stolen Card</a>
+}
+
+
+
+

@@ -10,7 +10,12 @@ namespace GlobalATM.Models
     {
         public string CardNumber {get; set;}
 
-        // public bool IsCardStolen { get; set; }
+        public bool IsCardStolen { get; set; }
+
+        public Checking()
+        {
+            IsCardStolen = false;
+        }
 
         public string RandomDigits(int length)
             {
@@ -20,9 +25,5 @@ namespace GlobalATM.Models
                     s = String.Concat(s, random.Next(10).ToString());
                 return s;
             }
-
-        
-
-
     }
 }    

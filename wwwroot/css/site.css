@@ -60,10 +60,11 @@ html {
 
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 60px;
-  background-color: rgb(159, 173, 185);
-  color: white;
+  margin-bottom: 60px !important;
+  background-color: rgb(159, 173, 185) !important;
+  color: white !important;
 }
+
 .footer {
   position: absolute;
   bottom: 0;
@@ -73,7 +74,7 @@ body {
 }
 
 #susanbar {
-  background-color: rgb(208, 189, 230);
+  background-color: rgb(208, 189, 230) !important;
 }
 
 .white-btn {
@@ -82,4 +83,41 @@ body {
 
 #convert-input {
   width: 260px;
+}
+
+#game-background {
+  width: 100vw !important;
+  height: 100vh !important;
+}
+    
+iframe {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  transform: translate(-50%, -50%) !important;
+}
+/*these media files may affect all media files, so be aware*/
+
+@media (min-aspect-ratio: 16/9) {
+  #game-background iframe {
+    /* height = 100 * (9 / 16) = 56.25 */
+    height: 56.25vw !important;
+  }
+}
+    
+@media (max-aspect-ratio: 16/9) {
+  #game-background iframe {
+    /* width = 100 / (9 / 16) = 177.777777 */
+    width: 177.78vh !important;
+  }
+}
+
+#game-container {
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 100%;
 }

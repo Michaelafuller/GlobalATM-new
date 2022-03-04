@@ -32,7 +32,7 @@ namespace GlobalATM.Models
         public string Pin {get;set;}
 
         
-        [Required]
+        [Required(ErrorMessage = "is Required")]
         [MinAge(18, ErrorMessage ="You must be at least 18 years old")]
         public DateTime Birthday {get; set;}
 
@@ -47,12 +47,15 @@ namespace GlobalATM.Models
         [NotMapped]
         public string Confirm {get;set;}
 
-        [Required]
         [Display(Name = "Account Type")]
         public string AccountType {get; set;}
 
         [NotMapped]
         public bool SecurityQuestions { get; set; }
+        [NotMapped]
+        [Display(Name = "Account Type")]
+        public bool AccountAccuracy { get; set; }
+
 
         [Required(ErrorMessage = "Required: ")]
         [MinLength(3, ErrorMessage = "Security question answers must be at least {1} characters.")]
@@ -71,11 +74,21 @@ namespace GlobalATM.Models
 
         [NotMapped]
         [MinLength(16, ErrorMessage ="Card number must be a length of 16")]
+        [Display(Name= "Please enter your 16 digit number")]
         public string CardNumber {get; set;}
 
         [NotMapped]
         [MinLength(12,ErrorMessage = "Account number must be a length of 12")]
+        
+        [Display(Name= "Please enter your 12 digit number")]
         public string AccountNumber {get; set;}
+
+
+        [NotMapped]
+        public string KPop { get; set; } = "BTS";
+
+        [NotMapped]
+        public string DOB { get; set; } = "October 31st";
 
         public class MinAge : ValidationAttribute
         {
