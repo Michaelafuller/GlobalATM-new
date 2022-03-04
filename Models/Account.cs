@@ -24,17 +24,25 @@ namespace GlobalATM.Models
 
 
         // Will need to .Include() transactions to use Balance!
-        public double Balance {get; set;} = 0;
-
-        public double GetSum(List<Transaction> allTransactions)
+        public double Balance
         {
-            double Total = 0;
-            foreach (Transaction transaction in allTransactions)
-    
+            get
             {
-                Total += transaction.Amount;
+                return Transactions.Sum(t => t.Amount);
+
             }
-            return Total;
         }
+
+
+        // public double GetSum(List<Transaction> allTransactions)
+        // {
+        //     double Total = 0;
+        //     foreach (Transaction transaction in allTransactions)
+    
+        //     {
+        //         Total += transaction.Amount;
+        //     }
+        //     return Total;
+        // }
     }
 }    

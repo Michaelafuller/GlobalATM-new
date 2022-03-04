@@ -185,8 +185,9 @@ namespace GlobalATM.Controllers
                 .Where(t => t.UserId == (int)UUID)
                 .ToList();
 
-            var Balance = userAccount.GetSum(allTransactions);
-            ViewBag.Balance = Balance;
+            // var Balance = userAccount.GetSum(allTransactions);
+            ViewBag.Balance = userAccount.Balance;
+            // ViewBag.Balance = Balance;
 
             User loggedUser = db.Users
                 .Include(u => u.Accounts)

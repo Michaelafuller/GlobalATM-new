@@ -29,7 +29,7 @@
         </tr>
     </thead>
     
-        @foreach (var t in @ViewBag.allTransactions)
+        @foreach (var t in @ViewBag.userAccount.Transactions)
         {
             <tr>
                 @if(@t.Amount < 0)
