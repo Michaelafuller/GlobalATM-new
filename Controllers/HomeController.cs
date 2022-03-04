@@ -108,7 +108,7 @@ namespace GlobalATM.Controllers
                 }
                 db.Add(newUser);
                 db.SaveChanges();
-                return RedirectToAction("Dashboard");
+                return RedirectToAction("LogIn");
             }
             ModelState.AddModelError("SecurityQuestions", "Security questions are required. Click the button to proceed.");
             ModelState.AddModelError("AccountAccuracy", "Please ensure input acccuracy.");
@@ -178,9 +178,8 @@ namespace GlobalATM.Controllers
                 return RedirectToAction("LogIn");
             }
 
-            Account userAccount = db.Accounts
-                                    .Include("Transactions")
-                                    .FirstOrDefault(a => a.AccountNumber == HttpContext.Session.GetString("AccountNumber"));
+            var userAccount = db.Accounts
+                                    .FirstOrDefault(a => a.UserId == (int)UUID);
             
             List<Transaction> allTransactions = db.Transactions
                 .Where(t => t.UserId == (int)UUID)
