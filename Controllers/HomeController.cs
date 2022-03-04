@@ -120,9 +120,9 @@ namespace GlobalATM.Controllers
         [HttpGet("/login")]
         public IActionResult LogIn()
         {
-            if(isLoggedIn){
-                return RedirectToAction("Dashboard");
-            }
+            // if(isLoggedIn){
+            //     return RedirectToAction("Dashboard");
+            // }
             return View("LogIn");
         }
 
