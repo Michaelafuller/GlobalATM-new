@@ -59,21 +59,21 @@ namespace GlobalATM.Controllers
                 return RedirectToAction("Dashboard");
             }
 
-            Checking existinCardNumber = db.Checkings.
-                                            FirstOrDefault(cn => cn.CardNumber == newUser.CardNumber);
-            if (existinCardNumber != null) 
-            {
-                ModelState.AddModelError("AccountAccuracy", "This number is already registered");
-                return View("Index");
-            }
+            // Checking existinCardNumber = db.Checkings.
+            //                                 FirstOrDefault(cn => cn.CardNumber == newUser.CardNumber);
+            // if (existinCardNumber != null) 
+            // {
+            //     ModelState.AddModelError("AccountAccuracy", "This number is already registered");
+            //     return View("Index");
+            // }
 
-            Account existingSavingAccount = db.Accounts.
-                                                FirstOrDefault(sa => sa.AccountNumber == newUser.AccountNumber);
-            if (existingSavingAccount != null)
-            {
-                ModelState.AddModelError("AccountAccuracy", "This number is already registered");
-                return View("Index");
-            }
+            // Account existingSavingAccount = db.Accounts.
+            //                                     FirstOrDefault(sa => sa.AccountNumber == newUser.AccountNumber);
+            // if (existingSavingAccount != null)
+            // {
+            //     ModelState.AddModelError("AccountAccuracy", "This number is already registered");
+            //     return View("Index");
+            // }
 
             if (ModelState.IsValid) 
             {
@@ -179,13 +179,15 @@ namespace GlobalATM.Controllers
             }
 
             Account userAccount = db.Accounts
-                                    .FirstOrDefault(c => c.UserId == (int)UUID);
+                                    .Include("Transactions")
+                                    .FirstOrDefault(a => a.AccountNumber == HttpContext.Session.GetString("AccountNumber"));
             
             List<Transaction> allTransactions = db.Transactions
                 .Where(t => t.UserId == (int)UUID)
                 .ToList();
 
-            ViewBag.Balance = userAccount.GetSum(allTransactions);
+            var Balance = userAccount.GetSum(allTransactions);
+            ViewBag.Balance = Balance;
 
             User loggedUser = db.Users
                 .Include(u => u.Accounts)
