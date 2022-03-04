@@ -12,6 +12,7 @@ namespace GlobalATM.Models
         public int AccountId {get;set;}
 
         public User User {get; set;}
+        public int UserId { get; set; }
         
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
@@ -25,7 +26,23 @@ namespace GlobalATM.Models
         // Will need to .Include() transactions to use Balance!
         public double Balance
         {
-            get { return Transactions.Sum(t => t.Amount); }
+            get
+            {
+                return Transactions.Sum(t => t.Amount);
+
+            }
         }
+
+
+        // public double GetSum(List<Transaction> allTransactions)
+        // {
+        //     double Total = 0;
+        //     foreach (Transaction transaction in allTransactions)
+    
+        //     {
+        //         Total += transaction.Amount;
+        //     }
+        //     return Total;
+        // }
     }
 }    

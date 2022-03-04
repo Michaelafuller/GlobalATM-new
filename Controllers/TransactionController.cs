@@ -51,10 +51,31 @@ namespace GlobalATM.Controllers
             {
                 return RedirectToAction("LogIn", "Home");
             }
+
+            List<Transaction> allTransactions = db.Transactions
+                .Where(t => t.UserId == (int)UUID)
+                .OrderByDescending(t => t.CreatedAt)
+                .ToList();
+
+            ViewBag.allTransactions = allTransactions;
+
             Account userAccount = db.Accounts
                                     .Include("Transactions")
                                     .FirstOrDefault(a => a.AccountNumber == HttpContext.Session.GetString("AccountNumber"));
             ViewBag.UserAccount = userAccount;
+
+            // var userAccount = db.Accounts
+            //                         .FirstOrDefault(a => a.UserId == (int)UUID);
+            
+            // List<Transaction> allTransactions = db.Transactions
+            //     .Where(t => t.UserId == (int)UUID)
+            //     .ToList();
+
+            // var Balance = userAccount.GetSum(allTransactions);
+
+            // ViewBag.Balance = Balance;
+
+
             return View("Withdraw");
         }
 
@@ -65,10 +86,31 @@ namespace GlobalATM.Controllers
             {
                 return RedirectToAction("LogIn", "Home");
             }
+
+            List<Transaction> allTransactions = db.Transactions
+                .Where(t => t.UserId == (int)UUID)
+                .OrderByDescending(t => t.CreatedAt)
+                .ToList();
+
+            ViewBag.allTransactions = allTransactions;
+
             Account userAccount = db.Accounts
                                     .Include("Transactions")
                                     .FirstOrDefault(a => a.AccountNumber == HttpContext.Session.GetString("AccountNumber"));
+                                    
             ViewBag.UserAccount = userAccount;
+
+                // var userAccount = db.Accounts
+                //                     .FirstOrDefault(a => a.UserId == (int)UUID);
+            
+            // List<Transaction> allTransactions = db.Transactions
+            //     .Where(t => t.UserId == (int)UUID)
+            //     .ToList();
+
+            // var Balance = userAccount.GetSum(allTransactions);
+
+            // ViewBag.Balance = Balance;
+
             return View("Deposit");
         }
 
@@ -127,7 +169,7 @@ namespace GlobalATM.Controllers
                     return View("Deposit");
                 }
             }
-            return RedirectToAction("Login", "Home");
+            return RedirectToAction("LogIn", "Home");
         }
 
         [HttpPost("Subtract")]

@@ -90,7 +90,6 @@ namespace GlobalATM.Controllers
                     smtp.Port = 587;
                     smtp.EnableSsl = true;
                     await smtp.SendMailAsync(message);
-                    TempData["Success"] = "Your deposit has been processed. Please check your email for receipt.";
                     return View("Game");
                 }
             }
