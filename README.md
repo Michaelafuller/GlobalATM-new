@@ -20,3 +20,5 @@
 </table>
 
 # This site is currently down due to an issue with dependencies and the supervisor middleware (site persistence in virtual environment). I am currently working on getting it back up! Thank you for your patience.
+
+## If you would like to see it running, I can have it up manually on very short notice. Do not hesitate to contact me.
